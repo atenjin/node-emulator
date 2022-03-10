@@ -27,7 +27,7 @@ futures = { version = "0.3.1" }
 # all optional crates.
 serde = { version = "1.0.117", features = [ "derive" ] }
 #serde-sgx = { optional = true, package = "serde", git = "https://github.com/mesalock-linux/serde-sgx", features = ["derive"] }
-
+serde_json = "*"
 # substrate
 # for example_runtime
 sp-version = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.16" }
@@ -44,7 +44,7 @@ sp-storage = { version = "4.0.0", git = "https://github.com/paritytech/substrate
 sp-externalities = { version = "0.10.0", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.16" }
 
 # Alt
-target-runtime = { package = "alt-producer-runtime", path = "../alt-producer/runtime", features = ["sgx-runtime"] }
+target-runtime = { package = "alt-producer-runtime", path = "../alt-producer/runtime", features = ["sgx-runtime", "manual-seal"] }
 #target-runtime = { package = "alt-producer-runtime", git = "ssh://git@github.com/alt-research/alt-producer.git", branch = "feature/sgx-runtime", default-features = false, features = ["sgx-runtime"] }
 
 # sgx
@@ -64,6 +64,4 @@ disable-runtime-api = []
 sp-state-machine = { path = "./state-machine" }
 
 [patch.crates-io]
-#libsecp256k1 = { git = "https://github.com/troysmilenow/libsecp256k1", branch = "v0.7.0-no-std" }
-#getrandom = { git = "https://github.com/troysmilenow/getrandom", branch = "0.2.4-sgx" }
 ethereum = { git = "https://github.com/purestake/ethereum", branch = "tgm-0.11.1-typeinfo-patch" }

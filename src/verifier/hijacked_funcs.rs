@@ -76,7 +76,7 @@ pub mod storage {
     }
 
     pub fn root() -> Vec<u8> {
-        with_externalities(|ext| ext.storage_root(StateVersion::V1))
+        with_externalities(|ext| ext.storage_root(StateVersion::V0))
     }
 
     pub fn clear_prefix(prefix: &[u8], limit: Option<u32>) -> KillStorageResult {
@@ -185,7 +185,7 @@ pub mod default_child_storage {
 
     pub fn storage_root(storage_key: &[u8]) -> Vec<u8> {
         let child_info = ChildInfo::new_default(storage_key);
-        with_externalities(|ext| ext.child_storage_root(&child_info, StateVersion::V1))
+        with_externalities(|ext| ext.child_storage_root(&child_info, StateVersion::V0))
     }
 
     pub fn next_key(storage_key: &[u8], key: &[u8]) -> Option<Vec<u8>> {
@@ -201,13 +201,13 @@ pub mod trie {
     use sp_trie::*;
 
     pub fn blake2_256_ordered_root(input: Vec<Vec<u8>>) -> H256 {
-        // jiaquan: We use LayoutV1 here, instead of V0
-        LayoutV1::<blake2::Blake2Hasher>::ordered_trie_root(input)
+        // jiaquan: We use LayoutV0 here, instead of V0
+        LayoutV0::<blake2::Blake2Hasher>::ordered_trie_root(input)
     }
 
     pub fn blake2_256_root(input: Vec<(Vec<u8>, Vec<u8>)>) -> H256 {
-        // jiaquan: We use LayoutV1 here, instead of V0
-        LayoutV1::<blake2::Blake2Hasher>::trie_root(input)
+        // jiaquan: We use LayoutV0 here, instead of V0
+        LayoutV0::<blake2::Blake2Hasher>::trie_root(input)
     }
 
     pub fn blake2_256_verify_proof(
@@ -216,8 +216,8 @@ pub mod trie {
         key: &[u8],
         value: &[u8],
     ) -> bool {
-        // jiaquan: We use LayoutV1 here, instead of V0
-        sp_trie::verify_trie_proof::<LayoutV1<blake2::Blake2Hasher>, _, _, _>(
+        // jiaquan: We use LayoutV0 here, instead of V0
+        sp_trie::verify_trie_proof::<LayoutV0<blake2::Blake2Hasher>, _, _, _>(
             &root,
             proof,
             &[(key, Some(value))],
@@ -226,13 +226,13 @@ pub mod trie {
     }
 
     pub fn keccak_256_ordered_root(input: Vec<Vec<u8>>) -> H256 {
-        // jiaquan: We use LayoutV1 here, instead of V0
-        LayoutV1::<keccak::KeccakHasher>::ordered_trie_root(input)
+        // jiaquan: We use LayoutV0 here, instead of V0
+        LayoutV0::<keccak::KeccakHasher>::ordered_trie_root(input)
     }
 
     pub fn keccak_256_root(input: Vec<(Vec<u8>, Vec<u8>)>) -> H256 {
-        // jiaquan: We use LayoutV1 here, instead of V0
-        LayoutV1::<keccak::KeccakHasher>::trie_root(input)
+        // jiaquan: We use LayoutV0 here, instead of V0
+        LayoutV0::<keccak::KeccakHasher>::trie_root(input)
     }
 
     pub fn keccak_256_verify_proof(
@@ -241,8 +241,8 @@ pub mod trie {
         key: &[u8],
         value: &[u8],
     ) -> bool {
-        // jiaquan: We use LayoutV1 here, instead of V0
-        sp_trie::verify_trie_proof::<LayoutV1<keccak::KeccakHasher>, _, _, _>(
+        // jiaquan: We use LayoutV0 here, instead of V0
+        sp_trie::verify_trie_proof::<LayoutV0<keccak::KeccakHasher>, _, _, _>(
             &root,
             proof,
             &[(key, Some(value))],
@@ -491,7 +491,8 @@ pub mod crypto {
         sig: &[u8; 65],
         msg: &[u8; 32],
     ) -> Result<[u8; 64], EcdsaVerifyError> {
-        unimplemented!("")
+        // unimplemented!("")
+        sp_io::crypto::secp256k1_ecdsa_recover(sig, msg)
         // let mut r = [0_u8; 32];
         // let mut s = [0_u8; 32];
         // r.copy_from_slice(&sig[..32]);

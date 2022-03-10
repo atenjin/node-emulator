@@ -165,13 +165,30 @@ pub fn validate_block(params: ValidationParams) {
             // header.digest().logs().iter().for_each(|d| {
             //     // println!("execute_block|d:{:?}|encoded:{:?}", d, d.encode());
             // });
-            // runtime::Executive::execute_block(block);
+            runtime::Executive::execute_block(block);
             // // TODO other check
 
-            sp_io::storage::set(&[1], &[1]);
-            sp_io::storage::set(&[2], &vec![2;33]);
-            let root = sp_io::storage::root();
-            println!("root:{:}", hex::encode(root));
+            // sp_io::storage::set(&[1], &[1]);
+            // sp_io::storage::set(&[2], &vec![2;33]);
+            // let root = sp_io::storage::root();
+            // println!("root:{:}", hex::encode(root));
+
+            // let mut msg = [0; 32];
+            // msg.copy_from_slice(&hex::decode("7a3827a60050145e7defa1fafc41b7c79119f66494c5f949aa6744ed38bcaae0").expect(""));
+            // let mut sig = [0; 65];
+            // sig.copy_from_slice(
+            //     &hex::decode("dfcc727f44ae1a6454fb6365f5fd5484edc05c4eb18ed9326a72202b4cdbe8b4726f56132afdf0ca8cecafe127a8122a1890dc5f06078c5f37b4b22a36aace4501").expect("")
+            // );
+            // let pubkey = hex::decode("509540919faacf9ab52146c9aa40db68172d83777250b28e4679176e49ccdd9fa213197dc0666e85529d6c9dda579c1295d61c417f01505765481e89a4016f02").expect("");
+            // let addr = hex::decode("f24ff3a9cf04c71dbc94d0b566f7a27b94566cac").expect("");
+            // match hijacked_funcs::crypto::secp256k1_ecdsa_recover(&sig, &msg) {
+            //     Ok(r) => {
+            //         assert_eq!(r.as_slice(), pubkey.as_slice());
+            //     }
+            //     Err(e) => {
+            //         panic!("");
+            //     }
+            // }
         })
     });
     println!("after exec:{:}", backend.root());
